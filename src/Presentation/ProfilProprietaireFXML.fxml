@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="408.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Presentation.ProfilProprietaireFXMLController">
+    <children>
+      <Label layoutX="270.0" layoutY="97.0" text="Votre Profil" />
+      <TextField layoutX="181.0" layoutY="123.0" />
+      <TextField layoutX="181.0" layoutY="160.0" />
+      <TextField layoutX="181.0" layoutY="198.0" />
+         <Button layoutX="605.0" layoutY="343.0" mnemonicParsing="false" onAction="" text="Enregistrer" />
+   <MenuBar layoutY="45.0" prefHeight="40.0" prefWidth="760.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Accueil" />
+          <Menu mnemonicParsing="false" text="Etablissement">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Consulter établissement" />
+                  <MenuItem mnemonicParsing="false" text="Ajouter établissement" />
+                  <MenuItem mnemonicParsing="false" text="Modifier établissement" />
+                  <MenuItem mnemonicParsing="false" text="Supprimer établissement" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Offre">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Consulter offre" />
+                  <MenuItem mnemonicParsing="false" text="Ajouter offre" />
+                  <MenuItem mnemonicParsing="false" text="Modifier offre" />
+                  <MenuItem mnemonicParsing="false" text="Supprimer offre" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Evénement">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Consulter événement" />
+                  <MenuItem mnemonicParsing="false" text="Ajouter événement" />
+                  <MenuItem mnemonicParsing="false" text="Modifier événement" />
+                  <MenuItem mnemonicParsing="false" text="Supprimer événement" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Publicité">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Consulter publicité" />
+                  <MenuItem mnemonicParsing="false" text="Ajouter publicité" />
+                  <MenuItem mnemonicParsing="false" text="Modifier publicité" />
+                  <MenuItem mnemonicParsing="false" text="Supprimer publicité" />
+               </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+      
+
+      <Label layoutX="52.0" layoutY="127.0" text="Prénom" />
+      <Label layoutX="52.0" layoutY="164.0" text="Nom" />
+      <Label layoutX="52.0" layoutY="202.0" text="Date De Naissance" />
+      <Button layoutX="603.0" layoutY="152.0" mnemonicParsing="false" text=" Désactiver &#10;Votre Profil" textAlignment="CENTER" wrapText="true" />
+   </children>
+</AnchorPane>

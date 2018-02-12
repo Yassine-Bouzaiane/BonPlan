@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40" fx:controller="Presentation.AfficherOffreFXMLController">
+      <MenuBar layoutY="38.0" prefHeight="40.0" prefWidth="760.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Accueil" />
+          <Menu mnemonicParsing="false" text="Etablissement">
+            <items>
+              <MenuItem fx:id="CE" mnemonicParsing="false" onAction="#consultEtabliss" text="Consulter établissement" />
+                  <MenuItem mnemonicParsing="false" text="Ajouter établissement" />
+                  <MenuItem mnemonicParsing="false" text="Modifier établissement" />
+                  <MenuItem mnemonicParsing="false" text="Supprimer établissement" />
+            </items>
+          </Menu>
+          
+           
+     
+    
+          <Menu mnemonicParsing="false" text="Offre">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Consulter offre" />
+                  <MenuItem mnemonicParsing="false" text="Ajouter offre" />
+                  <MenuItem mnemonicParsing="false" text="Modifier offre" />
+                  <MenuItem mnemonicParsing="false" text="Supprimer offre" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Evénement">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Consulter événement" />
+                  <MenuItem mnemonicParsing="false" text="Ajouter événement" />
+                  <MenuItem mnemonicParsing="false" text="Modifier événement" />
+                  <MenuItem mnemonicParsing="false" text="Supprimer événement" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Publicité">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Consulter publicité" />
+                  <MenuItem mnemonicParsing="false" text="Ajouter publicité" />
+                  <MenuItem mnemonicParsing="false" text="Modifier publicité" />
+                  <MenuItem mnemonicParsing="false" text="Supprimer publicité" />
+               </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+   <Label layoutX="43.0" layoutY="111.0" text="Photo Offre" />
+   <Label layoutX="43.0" layoutY="185.0" text="Description" />
+   <Label layoutX="43.0" layoutY="221.0" text="Date Debut" />
+   <Label layoutX="43.0" layoutY="257.0" text="Date Fin" />
+   <ImageView fx:id="img_offre" fitHeight="88.0" fitWidth="134.0" layoutX="102.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true" />
+   <Label fx:id="desc" layoutX="141.0" layoutY="185.0" text="Label" />
+   <Label fx:id="d_debut" layoutX="141.0" layoutY="221.0" text="Label" />
+   <Label fx:id="d_fin" layoutX="141.0" layoutY="257.0" text="Label" />
+      
+</AnchorPane>
