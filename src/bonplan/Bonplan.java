@@ -65,9 +65,9 @@ public class Bonplan {
 
 
         
-//        ServiceEtablissement SE = new ServiceEtablissement();
-//                Utilisateur u1 = new Utilisateur(1,"user1");
-//
+        ServiceEtablissement SE = new ServiceEtablissement();
+                Utilisateur u1 = new Utilisateur(1,"user1");
+
 //        Etablissement et = new Etablissement("cafe bristol", "aaaaa", 92332029 , "24h", "yezzi frere", "google it","photo patente", 4011, "google it", Etablissement.Budget.Moyen,"www.anoir.com",c,u1);
 //        SE.ajouterEtablissement(et);
 //        et.getCategorie().setId_categorie(5);
@@ -80,7 +80,7 @@ public class Bonplan {
 //       for(Etablissement etab:SE.listEtablissement()){
 //            System.out.println(etab.toString());
 //        }
-       
+//       
       
 // --------------Anoir-------------- //
 
