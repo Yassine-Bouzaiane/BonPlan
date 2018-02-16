@@ -16,7 +16,7 @@ import java.util.List;
 public interface IServiceEvenement 
 {
     public  List<Evenement> afficherevenement ();
-    public Evenement rechercherevenment(Evenement e);
+public Evenement rechercherevenment(int id_evenement);
     public void ajouterevenement (Evenement e);
     public void modifierevenement(Evenement e);
     public void supprimerevenement (Evenement e);

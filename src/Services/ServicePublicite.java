@@ -17,15 +17,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import IServices.IServicePublicite;
 import IServices.IServiceEvenement;
+import java.sql.Connection;
 
 /**
  *
  * @author admin
  */
 public class ServicePublicite implements IServicePublicite{
+Connection con ;
 
+    public ServicePublicite() {
+        con = Connexion.getInstance().getCon();
+    }
     @Override
-    public Publicite rechercherpublicite(Publicite p) {
+    public Publicite rechercherpublicite(int p){
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -41,8 +46,8 @@ public class ServicePublicite implements IServicePublicite{
             while(rest.next()){
                 Publicite pub = new Publicite();
                 pub.setId_publicite(rest.getInt("id_publicite"));
-                pub.setDescription(rest.getString("description"));
-                pub.setPhoto(rest.getString("photo"));
+                pub.setDescription_publicite(rest.getString("description_publicite"));
+                pub.setPhoto_publicite(rest.getString("photo_publicite"));
                 
                 pubs.add(pub);
                 
@@ -57,24 +62,29 @@ public class ServicePublicite implements IServicePublicite{
     @Override
     public void ajouterpublicite(Publicite p) {
 try {
-    String query = "insert into `bonplan`.`publicite` (`description`,`photo`,`id_etablissement`) values (?,?,?)";
+    String query = "insert into `bonplan`.`publicite` (`description_publicite`,`photo_publicite`,`id_etablissement`) values (?,?,?)";
     
     PreparedStatement st =
             Connexion.getInstance().getCon().prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
            
-            st.setString(1,p.getDescription());
-            st.setString(2,p.getPhoto());
-            st.setInt(3,1);
+            st.setString(1,p.getDescription_publicite());
+            st.setString(2,p.getPhoto_publicite());
+             ServiceEtablissement sc = new ServiceEtablissement();
+             st.setInt(3,2);
+         //   st.setInt(3,sc.ChercherEtablissement(p.getEtablissement().getId_etablissement()).getId_etablissement() );
 
             st.executeUpdate();
-
-             ResultSet result = st.getGeneratedKeys();
+            ResultSet result = st.getGeneratedKeys();
+            result.next();
+           System.out.println("publicite est ajouter");
+             
+             
             int id = 0;
-            while (result.next()) {
-                id = result.getInt(1);
-                p.setId_publicite(result.getInt(1));
-                System.out.println("id ajout pub"+id);
-            }
+//            while (result.next()) {
+//                id = result.getInt(1);
+//                //p.setId_publicite(result.getInt(1));
+//                System.out.println("id ajout pub"+id);
+//            }
         } catch (SQLException ex) {
             Logger.getLogger(ServicePublicite.class.getName()).log(Level.SEVERE, null, ex);
             
@@ -83,23 +93,23 @@ try {
 
     @Override
     public void modifierpublicite(Publicite p) {
-try {
-            String query = "update `bonplan`.`publicite` set description =? where id_etablissement =?  ;";
-            PreparedStatement st = Connexion.getInstance().getCon().prepareStatement(query);
-
-            st.setString(1,"TEST DE MODIfication de pub");
-//            st.setDate(2,o.getDate_debut());
-//            st.setDate(3,o.getDate_fin());
-//            st.setString(4,o.getPhoto());
-//            st.setInt(5,1);
-            st.setInt(2,1);
-
-            st.executeUpdate();
-            System.out.println(p.getId_publicite());
-
-        } catch (SQLException ex) {
-            Logger.getLogger(ServicePublicite.class.getName()).log(Level.SEVERE, null, ex);
+ try
+        {
+        String update = "UPDATE publicite SET description_publicite = ? , photo_publicite = ? WHERE id_publicite = ?";
+        PreparedStatement statement2 = con.prepareStatement(update);
+        statement2.setString(1, p.getDescription_publicite());
+        statement2.setString(2, p.getPhoto_publicite());
+        statement2.setInt(3, p.getId_publicite());
+        
+        statement2.executeUpdate();
+        
+            System.out.println("update Done");
         }
+        catch (SQLException e)
+                {
+                    System.out.println(e.getMessage());
+                    
+                }
     }
 
     @Override
@@ -108,7 +118,7 @@ try {
          try {
             String query = "delete from `publicite` where id_publicite =?";
             PreparedStatement st = Connexion.getInstance().getCon().prepareStatement(query);
-            st.setInt(1, 2);
+            st.setInt(1, p.getId_publicite());
             st.executeUpdate();
             System.out.println("supp pub ok");
 
@@ -116,6 +126,7 @@ try {
             Logger.getLogger(ServicePublicite.class.getName()).log(Level.SEVERE, null, ex);
         }    
     }
+
     
     
 }

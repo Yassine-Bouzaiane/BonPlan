@@ -14,20 +14,23 @@ import java.sql.Date;
 public class Publicite 
 {
     private int id_publicite;
-    private String description;
-    private String photo;
-
+    private String description_publicite;
+    private String photo_publicite;
+    private Etablissement etablissement;
+    
     public Publicite() 
     {
     }
 
-    
-    public Publicite(int id_publicite, String description, String photo) {
-       this.id_publicite=id_publicite;
-       this.description=description;
-       this.photo=photo;
+    public Publicite( String description_publicite, String photo_publicite, Etablissement etablissement) {
+        
+        this.description_publicite = description_publicite;
+        this.photo_publicite = photo_publicite;
+        this.etablissement = etablissement;
     }
 
+    
+    
     public int getId_publicite() {
         return id_publicite;
     }
@@ -36,28 +39,34 @@ public class Publicite
         this.id_publicite = id_publicite;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescription_publicite() {
+        return description_publicite;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public String getPhoto_publicite() {
+        return photo_publicite;
     }
 
-    public String getPhoto() {
-        return photo;
+    public Etablissement getEtablissement() {
+        return etablissement;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setDescription_publicite(String description_publicite) {
+        this.description_publicite = description_publicite;
+    }
+
+    public void setPhoto_publicite(String photo_publicite) {
+        this.photo_publicite = photo_publicite;
+    }
+
+    public void setEtablissement(Etablissement etablissement) {
+        this.etablissement = etablissement;
     }
 
     @Override
     public String toString() {
-        return "Publicite{" + "id_publicite=" + id_publicite + ", description=" + description + ", photo=" + photo + '}';
+        return "Publicite{" + "id_publicite=" + id_publicite + ", description_publicite=" + description_publicite + ", photo_publicite=" + photo_publicite + ", etablissement=" + etablissement + '}';
     }
-    
-    
     
     
 }

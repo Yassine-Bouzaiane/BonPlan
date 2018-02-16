@@ -10,46 +10,45 @@ package Entite;
  * @author amine
  */
 public class Evaluation {
-    protected int id_exp;
-    protected int id_critere;
-    protected int note;
-
-    public Evaluation(int id_exp, int id_critere, int note) {
-        this.id_exp = id_exp;
-        this.id_critere = id_critere;
-        this.note = note;
-    }
-
+    private Experience experience;
+    private int note;
+    private CriteresEvaluation critere_evaluation;
+    
     public Evaluation() {
     }
 
-    public int getId_exp() {
-        return id_exp;
+    public Evaluation(Experience experience, int note, CriteresEvaluation critere_evaluation) {
+        this.experience = experience;
+        this.note = note;
+        this.critere_evaluation = critere_evaluation;
     }
 
-    public void setId_exp(int id_exp) {
-        this.id_exp = id_exp;
-    }
-
-    public int getId_critere() {
-        return id_critere;
-    }
-
-    public void setId_critere(int id_critere) {
-        this.id_critere = id_critere;
+    public Experience getExperience() {
+        return experience;
     }
 
     public int getNote() {
         return note;
     }
 
+    public CriteresEvaluation getCritere_evaluation() {
+        return critere_evaluation;
+    }
+
+    public void setExperience(Experience experience) {
+        this.experience = experience;
+    }
+
     public void setNote(int note) {
         this.note = note;
     }
 
-    @Override
-    public String toString() {
-        return "evaluation{" + "id_exp=" + id_exp + ", id_critere=" + id_critere + ", note=" + note + '}';
+    public void setCritere_evaluation(CriteresEvaluation critere_evaluation) {
+        this.critere_evaluation = critere_evaluation;
     }
-    
+
+   
+
+
+   
 }

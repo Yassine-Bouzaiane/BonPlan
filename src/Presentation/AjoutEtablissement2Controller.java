@@ -12,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 
 /**
  * FXML Controller class
@@ -29,7 +28,7 @@ public class AjoutEtablissement2Controller implements Initializable {
     private TextField prx;
     @FXML
     private Button Valider;
-   
+
     /**
      * Initializes the controller class.
      */

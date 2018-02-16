@@ -4,9 +4,10 @@
  * and open the template in the editor.
  */
 
-package IService;
+package IServices;
 
 import Entite.Produit;
+import java.util.List;
 
 /**
  *
@@ -15,4 +16,8 @@ import Entite.Produit;
 public interface IServiceProduit {
      public void ajouterProduit(Produit prod);
      public void deleteProduit(int id_produit);
+     public List<Produit> afficherProduit();
+           public Produit chercherProduit(String nom_produit);
+             public void modifierProduit(Produit p);
+
 }

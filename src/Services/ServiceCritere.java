@@ -24,34 +24,38 @@ import java.util.logging.Logger;
  * @author amine
  */
 public class ServiceCritere implements IServices.IServiceCritere{
- public Connection cnx;
+ public Connection con;
 
     public ServiceCritere() {
-        this.cnx = Connexion.getInstance().getCon();
+        this.con = Connexion.getInstance().getCon();
     }   
 
 public void ajoutercritere(CriteresEvaluation e)    {
      try {
- 
-            Statement state = cnx.createStatement();
-            state.executeUpdate("INSERT INTO`critere_evaluation`(`nom`,`id_categorie`) VALUES ('"+e.getNom()+"',"+e.getId_categorie()+");");
+     String req=("INSERT INTO`critere_evaluation`(`nom_critere_evaluation`,`id_categorie`) VALUES (?,?)");
 
+       PreparedStatement state = Connexion.getInstance().getCon().prepareStatement(req,PreparedStatement.RETURN_GENERATED_KEYS);
+        state.setString(1, e.getNom_critere_evaluation());
+            state.setInt(2, 6 /*e.getId_critere()*/ );  
+          
             // 
          } catch (SQLException ex) {
                System.out.println(ex.getMessage());    
          } 
 }
+
+
 public void editcritere(CriteresEvaluation cs) 
     {
      
         {
-        String update = "UPDATE critere_evaluation SET nom= ?  WHERE id_critere = ?";
+        String update = "UPDATE critere_evaluation SET nom_critere_evaluation= ?  WHERE id_critere = ?";
         PreparedStatement statement2;
             try {
-                statement2 = cnx.prepareStatement(update);
+                statement2 = con.prepareStatement(update);
                 
                 
-                statement2.setString(1,cs.getNom());
+                statement2.setString(1,cs.getNom_critere_evaluation());
         statement2.setInt(2,cs.getId_critere());
         statement2.executeUpdate();
         System.out.println("critere num"+cs.getId_critere()+" modifiÃ©e !!!");
@@ -70,7 +74,7 @@ public void editcritere(CriteresEvaluation cs)
         try 
         {
         String delete = "DELETE FROM critere_evaluation WHERE id_critere = ? ";
-        PreparedStatement st2 = cnx.prepareStatement(delete);
+        PreparedStatement st2 = con.prepareStatement(delete);
         st2.setInt(1,ce.getId_critere());
         st2.executeUpdate();
        
@@ -82,21 +86,24 @@ public void editcritere(CriteresEvaluation cs)
                     System.err.println("SQLException: "+e.getMessage());
                            }
     }
-public CriteresEvaluation Findcritere(int id_categorie) 
+ 
+ 
+ 
+public CriteresEvaluation Findcritere(int id_crit) 
     {
         CriteresEvaluation ce= new  CriteresEvaluation();
         
         try
         {
-        String select = "SELECT * FROM critere_evaluation WHERE  id_categorie = '"+id_categorie+"' ";
-        Statement statement1 = cnx.createStatement();
+        String select = "SELECT * FROM critere_evaluation WHERE  id_critere = '"+id_crit+"' ";
+        Statement statement1 = con.createStatement();
         ResultSet result = statement1.executeQuery(select);
        
         while (result.next()) 
         {
-            ce.setId_categorie(result.getInt("id_categorie"));
             ce.setId_critere(result.getInt("id_critere"));
-            ce.setNom(result.getString("nom"));
+            ce.setNom_critere_evaluation(result.getString("nom_critere_evaluation"));
+            ce.getCategorie().setId_categorie(result.getInt("id_categorie"));
         
         }
         }
@@ -108,23 +115,25 @@ public CriteresEvaluation Findcritere(int id_categorie)
                 }
         return ce;
     }
-public List<CriteresEvaluation> listcritereevaluation() 
+
+
+ @Override 
+ public List<CriteresEvaluation> listcritereevaluation() 
     {
                 List<CriteresEvaluation> ht=new ArrayList<>();
         try 
         {
         String select = "SELECT * FROM critere_evaluation  ;";
-        Statement statement1 = cnx.createStatement();
+        Statement statement1 = con.createStatement();
         
         ResultSet result = statement1.executeQuery(select);
         
         while (result.next()) 
         {
             CriteresEvaluation h1 = new CriteresEvaluation();
-            
-            h1.setNom(result.getString("nom"));
-            h1.setId_categorie(result.getInt("id_categorie"));
             h1.setId_critere(result.getInt("id_critere"));
+            h1.setNom_critere_evaluation(result.getString("nom"));
+            h1.getCategorie().setId_categorie(result.getInt("id_categorie"));
             ht.add(h1);
 
         } 

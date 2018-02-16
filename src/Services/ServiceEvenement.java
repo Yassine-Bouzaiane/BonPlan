@@ -16,13 +16,20 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import IServices.IServiceEvenement;
+import java.sql.Connection;
+import java.time.LocalDate;
+import jdk.nashorn.internal.runtime.regexp.joni.EncodingHelper;
 
 /**
  *
  * @author admin
  */
 public class ServiceEvenement implements IServiceEvenement{
+public Connection cnx;
 
+    public ServiceEvenement() {
+        this.cnx = Connexion.getInstance().getCon();
+    }   
     @Override
     public List<Evenement> afficherevenement() 
     {
@@ -34,10 +41,60 @@ public class ServiceEvenement implements IServiceEvenement{
             while(rest.next()){
                 Evenement ev = new Evenement();
                 ev.setId_evenement(rest.getInt("id_evenement"));
-                ev.setDescription(rest.getString("description"));
+                ev.setDescription_evenement(rest.getString("description_evenement"));
                 ev.setDate_evenement(rest.getDate("date_evenement"));
-                ev.setPhoto(rest.getString("photo"));
+                ev.setPhoto_evenement(rest.getString("photo_evenement"));
+                ev.getEtablissement().setId_etablissement(rest.getInt("id_etablissement"));
+                ev.setNom_evenement(rest.getString("nom_evenement"));
+                evs.add(ev);
                 
+            }
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiceEvenement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return evs;
+    }
+
+     public List<Evenement> afficherevenementbynom(String nom) 
+    {
+        List<Evenement> evs =new ArrayList<>();
+        try {
+            Statement stm = Connexion.getInstance().getCon().createStatement();
+            ResultSet rest= 
+                    stm.executeQuery("select * from `evenement` where nom_evenement LIKE '%"+nom +"%' ;");
+            while(rest.next()){
+                Evenement ev = new Evenement();
+                ev.setId_evenement(rest.getInt("id_evenement"));
+                ev.setDescription_evenement(rest.getString("description_evenement"));
+                ev.setDate_evenement(rest.getDate("date_evenement"));
+                ev.setPhoto_evenement(rest.getString("photo_evenement"));
+                ev.getEtablissement().setId_etablissement(rest.getInt("id_etablissement"));
+                ev.setNom_evenement(rest.getString("nom_evenement"));
+                evs.add(ev);
+                
+            }
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiceEvenement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return evs;
+    }
+ public List<Evenement> afficherevenementbydate(LocalDate date) 
+    {
+        List<Evenement> evs =new ArrayList<>();
+        try {
+            Statement stm = Connexion.getInstance().getCon().createStatement();
+            ResultSet rest= 
+                    stm.executeQuery("select * from `evenement` where date_evenement='"+date+"';");
+            while(rest.next()){
+                Evenement ev = new Evenement();
+                ev.setId_evenement(rest.getInt("id_evenement"));
+                ev.setDescription_evenement(rest.getString("description_evenement"));
+                ev.setDate_evenement(rest.getDate("date_evenement"));
+                ev.setPhoto_evenement(rest.getString("photo_evenement"));
+                ev.getEtablissement().setId_etablissement(rest.getInt("id_etablissement"));
+                ev.setNom_evenement(rest.getString("nom_evenement"));
                 evs.add(ev);
                 
             }
@@ -49,25 +106,18 @@ public class ServiceEvenement implements IServiceEvenement{
     }
 
     @Override
-    public Evenement rechercherevenment(Evenement e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-
-    @Override
     public void modifierevenement(Evenement e) {
 try {
             String query = 
                     
-         "update `bonplan`.`evenement` set  description=?, date_evenement=?, photo=? where id_etablissement =?  ;";
+         "update `evenement` set  description_evenement =?, date_evenement=?, photo_evenement=? where id_etablissement =?  ;";
             
             PreparedStatement st = Connexion.getInstance().getCon().prepareStatement(query);
 
-            st.setString(1,"modif de desc even1");
-            st.setDate(2,new java.sql.Date(2016-1900,1,1));
-            st.setString(3,"modif de photo even1");
-            st.setInt(4,1);
+            st.setString(1,e.getDescription_evenement());
+            st.setDate(2,e.getDate_evenement());
+            st.setString(3,e.getPhoto_evenement());
+            st.setInt(4,4/*e.getEtablissement().getId_etablissement()*/);
 
             st.executeUpdate();
             System.out.println(e.getId_evenement());
@@ -82,7 +132,7 @@ try {
  try {
             String query = "delete from `evenement` where id_evenement =?";
             PreparedStatement st = Connexion.getInstance().getCon().prepareStatement(query);
-            st.setInt(1, 1);
+            st.setInt(1,5/* e.getEtablissement().getId_etablissement()*/);
             st.executeUpdate();
             System.out.println("supp even ok");
 
@@ -94,18 +144,19 @@ try {
     @Override
     public void ajouterevenement(Evenement e) {
 try {
-            String query = "insert into `bonplan`.`evenement` (`description`,`date_evenement`,`photo`,`id_etablissement`) values (?,?,?,?)";
+            String query = "insert into `evenement` (`description_evenement`,`date_evenement`,`photo_evenement`,`id_etablissement`,`nom_evenement`) values (?,?,?,?,?)";
             PreparedStatement st = Connexion.getInstance().getCon().prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
            
            
-            //st.setInt(1, d.getId_demande());
-            st.setString(1,e.getDescription());
+            st.setString(1,e.getDescription_evenement());
             st.setDate(2,e.getDate_evenement());
-            st.setString(3,e.getPhoto()); 
-            st.setInt(4,1);
-
+            st.setString(3,e.getPhoto_evenement()); 
+           
+            st.setInt(4,e.getEtablissement().getId_etablissement());
+               st.setString(5,e.getNom_evenement());
             st.executeUpdate();
-             ResultSet result = st.getGeneratedKeys();
+          
+   ResultSet result = st.getGeneratedKeys();
             int id = 0;
             while (result.next()) {
                 id = result.getInt(1);
@@ -117,6 +168,37 @@ try {
             
         }    
     }
+
+    @Override
+    public Evenement rechercherevenment(int id_etablissement) {
+Evenement of= new  Evenement();
+        
+        try
+        {
+        String select = "SELECT * FROM evenement WHERE  id_etablissement = '"+id_etablissement+"' ";
+        Statement statement1 = cnx.createStatement();
+        ResultSet result = statement1.executeQuery(select);
+       
+        while (result.next()) 
+        {
+            of.setDate_evenement(result.getDate("date_evenement"));
+            of.setDescription_evenement(result.getString("description_evenement"));
+            of.setId_evenement(result.getInt("id_evenement"));
+                                of.setEtablissement(new ServiceEtablissement().chercherEtablissement(result.getInt(8)));
+
+        }
+        }
+        catch (SQLException e)
+                {
+                    System.err.println("SQLException: "+e.getMessage());
+                    System.err.println("SQLSTATE: "+e.getSQLState());
+                    System.err.println("VnedorError: "+e.getErrorCode());
+                }
+        return of;
+    }
+
+    
+
  }
 
  

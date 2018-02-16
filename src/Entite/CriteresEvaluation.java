@@ -11,18 +11,22 @@ package Entite;
  */
 public class CriteresEvaluation {
     
-  protected int id_critere;
-  protected String nom ;
-  protected  int id_categorie;
+  private int id_critere;
+  private String nom_critere_evaluation ;
+  private  Categorie categorie;
 
-    public CriteresEvaluation(String nom, int id_categorie) {
-        this.nom = nom;
-        this.id_categorie = id_categorie;
-    }
+   
 
     public CriteresEvaluation() {
     }
 
+    public CriteresEvaluation(int id_critere, String nom_critere_evaluation, Categorie categorie) {
+        this.id_critere = id_critere;
+        this.nom_critere_evaluation = nom_critere_evaluation;
+        this.categorie = categorie;
+    }
+
+    
     public int getId_critere() {
         return id_critere;
     }
@@ -31,25 +35,29 @@ public class CriteresEvaluation {
         this.id_critere = id_critere;
     }
 
-    public String getNom() {
-        return nom;
+    public String getNom_critere_evaluation() {
+        return nom_critere_evaluation;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public Categorie getCategorie() {
+        return categorie;
     }
 
-    public int getId_categorie() {
-        return id_categorie;
+    public void setNom_critere_evaluation(String nom_critere_evaluation) {
+        this.nom_critere_evaluation = nom_critere_evaluation;
     }
 
-    public void setId_categorie(int id_categorie) {
-        this.id_categorie = id_categorie;
+    public void setCategorie(Categorie categorie) {
+        this.categorie = categorie;
     }
 
     @Override
     public String toString() {
-        return "criteresevaluation{" + "id_critere=" + id_critere + ", nom=" + nom + ", id_categorie=" + id_categorie + '}';
+        return "CriteresEvaluation{" + "id_critere=" + id_critere + ", nom_critere_evaluation=" + nom_critere_evaluation + ", categorie=" + categorie + '}';
     }
+
+    
+
+   
 
 }

@@ -24,11 +24,11 @@ public class bpFXMain extends Application {
     
     @Override
     public void start(Stage primaryStage) throws IOException {
-                 Parent root =FXMLLoader.load(getClass().getResource("ajoutEtablissement.fxml"));
+                 Parent root =FXMLLoader.load(getClass().getResource("Publicite.fxml"));
 
         Scene scene = new Scene(root, 300, 250);
         
-        primaryStage.setTitle("BonPlan");
+        primaryStage.setTitle("Hello World!");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

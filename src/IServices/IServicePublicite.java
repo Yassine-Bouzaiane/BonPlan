@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface IServicePublicite 
 {
-    public Publicite rechercherpublicite(Publicite p);
+    public Publicite rechercherpublicite(int p);
     public List<Publicite> afficherpublicite ();
         public void ajouterpublicite (Publicite p);
 

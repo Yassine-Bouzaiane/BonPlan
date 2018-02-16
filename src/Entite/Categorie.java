@@ -5,6 +5,8 @@
  */
 package Entite;
 
+import java.util.List;
+
 /**
  *
  * @author user
@@ -12,12 +14,16 @@ package Entite;
 public class Categorie {
     private int id_categorie;
     private String nom_categorie;
+    private List<Etablissement> etablissements;
 
-    public Categorie(String nom_categorie) {
-      
+    public Categorie(int id_categorie, String nom_categorie, List<Etablissement> etablissements) {
+        this.id_categorie = id_categorie;
         this.nom_categorie = nom_categorie;
+        this.etablissements = etablissements;
     }
-
+    
+    
+   
     public Categorie() {
     }
     
@@ -39,11 +45,20 @@ public class Categorie {
         this.nom_categorie = nom_categorie;
     }
 
+    public List<Etablissement> getEtablissements() {
+        return etablissements;
+    }
+
+    public void setEtablissements(List<Etablissement> etablissements) {
+        this.etablissements = etablissements;
+    }
+
     @Override
     public String toString() {
-        return "Categorie{" + "id_categorie=" + id_categorie + ", nom_categorie=" + nom_categorie + '}';
+        return "Categorie{" + "id_categorie=" + id_categorie + ", nom_categorie=" + nom_categorie + ", etablissements=" + etablissements + '}';
     }
-    
+
+   
     
     
 }

@@ -7,12 +7,9 @@ package Presentation;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 
 /**
  * FXML Controller class
@@ -22,13 +19,6 @@ import javafx.scene.image.ImageView;
 public class ProfilClientFXMLController implements Initializable {
 
 
-    String remoteUrl = "http://java2s.com/style/demo/Firefox.png";
-      
-    
-    @FXML
-private ImageView avatar = new ImageView(remoteUrl);
-
-
     /**
      * Initializes the controller class.
      */
@@ -36,9 +26,5 @@ private ImageView avatar = new ImageView(remoteUrl);
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
-
-    @FXML
-    private void ajouteruser(ActionEvent event) {
-    }
     
 }

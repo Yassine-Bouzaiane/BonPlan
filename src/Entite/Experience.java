@@ -11,67 +11,68 @@ package Entite;
  * @author amine
  */
 public class Experience {
-    protected int id_exp;
-  protected String description;
-   protected String preuve;
-   protected int id ;
-  protected int  id_etablissement;
+    private int id_exp;
+    private String description_experience;
+    private String preuve;
+    private Utilisateur utilisateur ;
+    private Etablissement etablissement;
 
-    public Experience( String description, String preuve, int id, int id_etablissement) {
-     
-        this.description = description;
-        this.preuve = preuve;
-        this.id = id;
-        this.id_etablissement = id_etablissement;
+    
+    public Experience() {
     }
 
-    public Experience() {
+    public Experience(int id_exp, String description_experience, String preuve, Utilisateur utilisateur, Etablissement etablissement) {
+        this.id_exp = id_exp;
+        this.description_experience = description_experience;
+        this.preuve = preuve;
+        this.utilisateur = utilisateur;
+        this.etablissement = etablissement;
     }
 
     public int getId_exp() {
         return id_exp;
     }
 
-    public void setId_exp(int id_exp) {
-        this.id_exp = id_exp;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public String getDescription_experience() {
+        return description_experience;
     }
 
     public String getPreuve() {
         return preuve;
     }
 
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public Etablissement getEtablissement() {
+        return etablissement;
+    }
+
+    public void setId_exp(int id_exp) {
+        this.id_exp = id_exp;
+    }
+
+    public void setDescription_experience(String description_experience) {
+        this.description_experience = description_experience;
+    }
+
     public void setPreuve(String preuve) {
         this.preuve = preuve;
     }
 
-    public int getId() {
-        return id;
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId_etablissement() {
-        return id_etablissement;
-    }
-
-    public void setId_etablissement(int id_etablissement) {
-        this.id_etablissement = id_etablissement;
+    public void setEtablissement(Etablissement etablissement) {
+        this.etablissement = etablissement;
     }
 
     @Override
     public String toString() {
-        return "experience{" + "id_exp=" + id_exp + ", description=" + description + ", preuve=" + preuve + ", id=" + id + ", id_etablissement=" + id_etablissement + '}';
+        return "Experience{" + "id_exp=" + id_exp + ", description_experience=" + description_experience + ", preuve=" + preuve + ", utilisateur=" + utilisateur + ", etablissement=" + etablissement + '}';
     }
-  
+
     
 }

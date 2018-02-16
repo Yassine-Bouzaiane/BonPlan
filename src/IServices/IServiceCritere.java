@@ -16,7 +16,7 @@ public interface IServiceCritere {
     public void ajoutercritere(CriteresEvaluation e);
     public void editcritere(CriteresEvaluation cs);
      public void Deletecritere(CriteresEvaluation ce);
-public CriteresEvaluation Findcritere(int id_categ); 
+    public CriteresEvaluation Findcritere(int id_crit); 
      public List<CriteresEvaluation> listcritereevaluation();
 
 

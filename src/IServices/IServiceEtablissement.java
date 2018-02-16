@@ -13,10 +13,13 @@ import java.util.List;
  * @author user
  */
 public interface IServiceEtablissement {
+    
     public void ajouterEtablissement(Etablissement e);
     public void modifierEtablissement(Etablissement e);
     public void supprimerEtablissement(Etablissement e);
-    public Etablissement chercherEtablissement(String nom);
+    public Etablissement chercherEtablissement(int id);
+    public Etablissement chercherEtablissementParNom(String nom);
     public List<Etablissement> listEtablissement();
+    public List<Etablissement> listDemandesEtablissement();
     
 }

@@ -13,6 +13,7 @@ import java.util.List;
  * @author admin
  */
 public interface IServiceExperience {
+    
     public  List<Experience> afficherexperience ();
     public void ajouterexperience (Experience e);
     public Experience rechercherexperience (int id ,int id_etablissement);

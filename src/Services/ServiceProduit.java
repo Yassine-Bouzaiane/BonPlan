@@ -8,12 +8,13 @@ package Services;
 
 import Config.Connexion;
 import Entite.Produit;
-import IService.IServiceProduit;
+import IServices.IServiceProduit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 /**
  *
@@ -37,8 +38,8 @@ public class ServiceProduit implements IServiceProduit{
              st1.setString(1, prod.getNom_produit());
             st1.setString(2, prod.getPhoto_produit());  
            
-            st1.setFloat(3,prod.getPrix_produit());
-             st1.setInt(4,4); 
+            st1.setDouble(3,prod.getPrix_produit());
+             st1.setInt(4,5/*prod.getEtablissement().getId_etablissement()*/); 
             
             
             
@@ -76,7 +77,7 @@ public class ServiceProduit implements IServiceProduit{
     
     
     
-    public void modifierProduit(Produit p , int id_produit){
+    public void modifierProduit(Produit p){
             
             try {
                 String req = "UPDATE produit SET nom_produit=? ,prix_produit=?  where id_produit=?";
@@ -84,10 +85,10 @@ public class ServiceProduit implements IServiceProduit{
                 
                 
               st3.setString(1, p.getNom_produit());
-              st3.setFloat(2, p.getPrix_produit());
+              st3.setDouble(2, p.getPrix_produit());
            
 
-            st3.setInt(3, id_produit);
+            st3.setInt(3,p.getId_produit());
             st3.executeUpdate();
            
                 
@@ -113,7 +114,7 @@ public class ServiceProduit implements IServiceProduit{
             g.setId_produit(result.getInt("id_produit"));
             g.setNom_produit(result.getString("nom_produit"));
             g.setPhoto_produit(result.getString("photo_produit"));    
-            g.setPrix_produit(result.getFloat("prix_produit"));
+            g.setPrix_produit(result.getDouble("prix_produit"));
             
             
             }
@@ -126,6 +127,19 @@ public class ServiceProduit implements IServiceProduit{
                 }
         return g; 
     }
+
+    
+    
+    @Override
+    public List<Produit> afficherProduit() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+   
+
+   
+
+   
 
     
     
