@@ -32,10 +32,11 @@ public class ServiceEvaluation implements IServices.IServiceEvaluation{
     }   
 public void ajouterevaluation(Evaluation e)    {
      try {
-    String query =("INSERT INTO `evaluation`(`id_critere`, `note`) VALUES (?,?)");
+    String query =("INSERT INTO `evaluation`(`id_exp`, `id_critere`, `note`) VALUES (?,?)");
          
            PreparedStatement state = Connexion.getInstance().getCon().prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
-           state.setInt(1, 3 /*e.getCritere_evaluation().getId_critere()*/);
+           state.setInt(1, 4/*e.getExperience().getId_exp()*/);
+           state.setInt(2, 3 /*e.getCritere_evaluation().getId_critere()*/);
            state.setInt(2,e.getNote());
  
                 int res = state.executeUpdate();
