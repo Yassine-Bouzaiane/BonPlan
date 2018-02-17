@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import IServices.IServiceOffre;
 import java.sql.Connection;
+import java.time.LocalDate;
 
 /**
  *
@@ -42,7 +43,7 @@ try {
             st.setString(4,o.getPhoto()); 
             st.setInt(5,o.getNombre_like());
             st.setInt(6,o.getNombre_like());
-            st.setInt(7,5/*o.getEtablissement().getId_etablissement()*/);
+            st.setInt(7,o.getEtablissement().getId_etablissement());
 
             st.executeUpdate();
              ResultSet result = st.getGeneratedKeys();
@@ -106,7 +107,7 @@ try {
             st.setDate(3,o.getDate_fin());
             st.setString(4,o.getPhoto());
             st.setInt(5,o.getId_offre());
-             st.setInt(6,6/*o.getEtablissement().getId_etablissement()*/);
+             st.setInt(6,o.getEtablissement().getId_etablissement());
 
             st.executeUpdate();
             System.out.println(o.getId_offre()+" Update Done");
@@ -132,10 +133,99 @@ try {
         }
     }
 
-    @Override
-    public Offre rechercheroffre(int id_et) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+   
+        public List<Offre> afficheroffrebyid(int id) {
+    
+    {
+                List<Offre> offres =new ArrayList<>();
+        try {
+            Statement stm = Connexion.getInstance().getCon().createStatement();
+            ResultSet rest= 
+                    stm.executeQuery("select * from `offre` where id_offre="+id);
+            while(rest.next()){
+                Offre off = new Offre();
+                off.setId_offre(rest.getInt("id_offre"));
+                off.setDescription(rest.getString("description_offre"));
+                off.setDate_debut(rest.getDate("date_debut"));
+                off.setDate_fin(rest.getDate("date_fin"));
+                off.setPhoto(rest.getString("photo_offre"));
+               
+ off.setEtablissement(new ServiceEtablissement().chercherEtablissement(rest.getInt(8)));
+                offres.add(off);
+                
+            }
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiceOffre.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return offres;
     }
-        
+
+    }
+    
+    public List<Offre> afficheroffrebydate(LocalDate date) {
+    
+    {
+                List<Offre> offres =new ArrayList<>();
+        try {
+            Statement stm = Connexion.getInstance().getCon().createStatement();
+            ResultSet rest= 
+                    stm.executeQuery("select * from `offre` where date_fin > '"+date+"';");
+
+            while(rest.next()){
+                Offre off = new Offre();
+                off.setId_offre(rest.getInt("id_offre"));
+                off.setDescription(rest.getString("description_offre"));
+                off.setDate_debut(rest.getDate("date_debut"));
+                off.setDate_fin(rest.getDate("date_fin"));
+                off.setPhoto(rest.getString("photo_offre"));
+               
+
+ off.setEtablissement(new ServiceEtablissement().chercherEtablissement(rest.getInt(8)));
+                offres.add(off);
+                
+            }
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiceOffre.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return offres;
+    }
+
+    }
+    
+
+
+    public Offre rechercheroffre(int id_etablissement) 
+    {
+        Offre h = new Offre();
+        try
+        { 
+        String select = "SELECT * FROM offre WHERE id_etablissement ="+id_etablissement;
+            Statement stm = Connexion.getInstance().getCon().createStatement();
+        ResultSet result = stm.executeQuery(select);
+       
+        while (result.next()) 
+        {
+            h.setDate_debut(result.getDate(3));
+
+            h.setDescription(result.getString(2));
+                        h.setDate_fin(result.getDate(4));
+                        h.setPhoto(result.getString(5));
+                        
+//                        ServiceEtablissement ss = new ServiceEtablissement();
+//                        Etablissement ee =  ss.chercherEtablissement(id_etablissement);
+//                    h.setEtab(ee);
+//        
+        }
+        }
+        catch (SQLException e)
+                {
+                    System.err.println("SQLException: "+e.getMessage());
+                    System.err.println("SQLSTATE: "+e.getSQLState());
+                    System.err.println("VnedorError: "+e.getErrorCode());
+                }
+        return h;
+    }
     }
     
