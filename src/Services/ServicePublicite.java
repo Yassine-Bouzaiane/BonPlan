@@ -62,15 +62,17 @@ Connection con ;
     @Override
     public void ajouterpublicite(Publicite p) {
 try {
-    String query = "insert into `bonplan`.`publicite` (`description_publicite`,`photo_publicite`,`id_etablissement`) values (?,?,?)";
+    String query = "insert into `bonplan`.`publicite` (`description_publicite`,`photo_publicite`,`id_etablissement`,enabled) values (?,?,?,?)";
     
     PreparedStatement st =
             Connexion.getInstance().getCon().prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
            
             st.setString(1,p.getDescription_publicite());
             st.setString(2,p.getPhoto_publicite());
+            
              ServiceEtablissement sc = new ServiceEtablissement();
              st.setInt(3,2);
+             st.setInt(4, 0);
          //   st.setInt(3,sc.ChercherEtablissement(p.getEtablissement().getId_etablissement()).getId_etablissement() );
 
             st.executeUpdate();
@@ -111,6 +113,25 @@ try {
                     
                 }
     }
+     public void updatepublicite(Publicite p) {
+ try
+        {
+        String update = "UPDATE publicite SET enabled = ? WHERE id_publicite = ?";
+        PreparedStatement statement2 = con.prepareStatement(update);
+        statement2.setInt(1, 1);
+        statement2.setInt(2,p.getId_publicite());
+       
+        
+        statement2.executeUpdate();
+        
+            System.out.println("update Done");
+        }
+        catch (SQLException e)
+                {
+                    System.out.println(e.getMessage());
+                    
+                }
+    }
 
     @Override
     public void supprimerpublicite(Publicite p) {
@@ -126,6 +147,35 @@ try {
             Logger.getLogger(ServicePublicite.class.getName()).log(Level.SEVERE, null, ex);
         }    
     }
+     public List<Publicite> listDemandesPublicites() {
+        List<Publicite> lc = new ArrayList<>();
+        try {
+            String select = "SELECT  * FROM publicite where enabled=0 ;";
+
+            Statement statement1 = con.createStatement();
+
+            ResultSet result = statement1.executeQuery(select);
+
+            while (result.next()) {
+                Publicite c = new Publicite();
+
+                c.setId_publicite(result.getInt("id_publicite"));
+                c.setDescription_publicite(result.getString("description_publicite"));
+                c.setPhoto_publicite(result.getString("photo_publicite"));
+                c.setEnabled(result.getInt("enabled"));
+
+
+                lc.add(c);
+
+            }
+        } catch (SQLException e) {
+            System.err.println("SQLException: " + e.getMessage());
+            System.err.println("SQLSTATE: " + e.getSQLState());
+            System.err.println("VnedorError: " + e.getErrorCode());
+        }
+        return lc;
+    } //To change body of generated methods, choose Tools | Templates.
+
 
     
     
