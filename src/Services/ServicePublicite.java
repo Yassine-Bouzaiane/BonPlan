@@ -59,6 +59,28 @@ Connection con ;
          return pubs;
     }    }
 
+     public List<Publicite> afficherPhoto() {
+
+    {
+                List<Publicite> pic =new ArrayList<>();
+        try {
+            Statement stm = con.createStatement();
+            ResultSet rest= 
+                    stm.executeQuery("select photo_publicite from `publicite` ");
+            while(rest.next()){
+                Publicite pub = new Publicite();
+                
+                pub.setPhoto_publicite(rest.getString("photo_publicite"));
+                
+                pic.add(pub);
+                
+            }
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(ServicePublicite.class.getName()).log(Level.SEVERE, null, ex);
+        }
+             return pic;
+    }    }
     @Override
     public void ajouterpublicite(Publicite p) {
 try {
