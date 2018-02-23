@@ -34,7 +34,7 @@ public class Etablissement {
 //    private List<Evenement> evenements;
 //    private List<Publicite> publicites;
 
-    
+    //
     
     public Etablissement() {
     }
