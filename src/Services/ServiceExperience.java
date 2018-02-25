@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
 
 /**
  *
@@ -30,6 +33,8 @@ public class ServiceExperience implements IServiceExperience{
     public ServiceExperience() {
         this.cnx = Connexion.getInstance().getCon();
     }
+    
+    
     @Override
  public void ajouterexperience(Experience e)    {
 //     try {
@@ -144,7 +149,7 @@ public void modifierexperience(Experience e)
 //            h.getUtilisateur().setId_user(result.getInt("id"));
 ServiceEtablissement se = new ServiceEtablissement();
             h.setEtablissement(se.chercherEtablissement(result.getInt("id_etablissement")));
-//        
+       
         }
         }
         catch (SQLException e)
@@ -266,7 +271,54 @@ ServiceEtablissement se = new ServiceEtablissement();
     }
 
 
-   
+//    public ObservableList<PieChart.Data> nbExp() {
+//        ArrayList<PieChart.Data> list = new ArrayList<PieChart.Data>();
+//        try {
+//            PreparedStatement st = cnx.prepareStatement("SELECT  count( id_exp)  from experience e , etablissement r where r.id_etablissement =e.id_etablissement AND r.id=2 GROUP by r.id_etablissement");
+//            ResultSet rs = st.executeQuery();
+//            while (rs.next()) {
+//                list.add(new PieChart.Data(rs.getString(1), rs.getInt(1)));
+//            }
+//            ObservableList<PieChart.Data> observableList;
+//            observableList = FXCollections.observableList(list);
+////            System.out.println("ici" + observableList.size());
+//for (PieChart.Data data : observableList) {System.out.println("test ::"+data);
+//                
+//            }
+//            return observableList;
+//
+//        } catch (SQLException ex) {
+//            Logger.getLogger(ServiceEtablissement.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return null;
+//    }
+    
+             
+
+     public ObservableList<PieChart.Data> moyEvalTotProp() {
+        ArrayList<PieChart.Data> list = new ArrayList<PieChart.Data>();
+        try {
+            PreparedStatement st = cnx.prepareStatement("  SELECT AVG( note ) from evaluation ev, experience ex , etablissement et where et.id_etablissement =ex.id_etablissement AND et.id=2 AND ev.id_exp=ex.id_exp");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                list.add(new PieChart.Data(rs.getString(1),rs.getDouble(1)));
+            }
+            ObservableList<PieChart.Data> observableList;
+            observableList = FXCollections.observableList(list);
+//            System.out.println("ici" + observableList.size());
+for (PieChart.Data data : observableList) {
+    System.out.println("test ::"+data);
+                
+            }
+            return observableList;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiceEtablissement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+
     }
 
    

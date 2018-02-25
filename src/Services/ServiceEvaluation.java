@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
 
 /**
  *
@@ -160,4 +163,97 @@ public class ServiceEvaluation implements IServices.IServiceEvaluation{
         }
         return lc;
     }
+    
+     public double moyTotEtab(int id_etab) {
+Double moy=0.0;
+
+try {
+            PreparedStatement st = cnx.prepareStatement("SELECT  avg( note)  from experience ex , etablissement et, evaluation ev where et.id_etablissement =ex.id_etablissement AND et.id_etablissement = '"+id_etab+"' and ex.id_exp=ev.id_exp");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                moy=rs.getDouble(1);
+            }
+           
+             
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiceEtablissement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return moy;
+    }
+     
+    public List<Evaluation> listEvaluationExp(int id_exp) {
+ List<Evaluation> lc = new ArrayList<>();
+        try {
+            String select = "SELECT  * FROM evaluation where id_exp= '"+id_exp+"';";
+
+            Statement statement1 = cnx.createStatement();
+
+            ResultSet result = statement1.executeQuery(select);
+
+            while (result.next()) {
+                Evaluation c = new Evaluation();
+
+               ServiceExperience se = new ServiceExperience();
+            c.setExperience(se.FindExperience(result.getInt("id_exp")));
+            
+             ServiceCritere sc = new ServiceCritere();
+            c.setCritere_evaluation(sc.Findcritere(result.getInt("id_critere")));
+                
+                c.setNote(result.getDouble("note"));
+
+
+                lc.add(c);
+
+            }
+        } catch (SQLException e) {
+            System.err.println("SQLException: " + e.getMessage());
+            System.err.println("SQLSTATE: " + e.getSQLState());
+            System.err.println("VnedorError: " + e.getErrorCode());
+        }
+        return lc;
+    }
+    
+      public double moyTotExp(int id_exp) {
+Double moy=0.0;
+
+try {
+            PreparedStatement st = cnx.prepareStatement("SELECT  avg( note)  from experience ex , evaluation ev where ex.id_exp = '"+id_exp+"' and ex.id_exp=ev.id_exp");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                moy=rs.getDouble(1);
+            }
+           
+             
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiceEtablissement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return moy;
+    }
+      
+            
+            
+            public ObservableList<PieChart.Data> moyTotCrit()/*id user*/ {
+        ArrayList<PieChart.Data> list = new ArrayList<PieChart.Data>();
+        try {
+            PreparedStatement st = cnx.prepareStatement(" SELECT nom_critere_evaluation, AVG(note) from evaluation ev, etablissement et, experience ex, critere_evaluation cv where et.id_etablissement = ex.id_etablissement and et.id=2 and ev.id_exp=ex.id_exp and cv.id_critere=ev.id_critere GROUP BY ev.id_critere");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                list.add(new PieChart.Data(rs.getString(1),rs.getDouble(2)));
+            }
+            ObservableList<PieChart.Data> observableList;
+            observableList = FXCollections.observableList(list);
+//            System.out.println("ici" + observableList.size());
+for (PieChart.Data data : observableList) {
+    System.out.println("test ::"+data);
+                
+            }
+            return observableList;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiceEtablissement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+
 }
