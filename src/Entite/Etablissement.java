@@ -28,6 +28,8 @@ public class Etablissement {
     private int enabled;
     private Categorie categorie;
     private Utilisateur utilisateur;
+    private Double Long;
+    private Double Lat;
 //    private List<Offre> offres;
 //    private List<Evenement> evenements;
 //    private List<Publicite> publicites;
@@ -35,6 +37,42 @@ public class Etablissement {
     
     
     public Etablissement() {
+    }
+
+    public Etablissement(int id_etablissement, String nom_etablissement, String adresse_etablissement, int telephone_etablissement, String horaire_travail, String description_etablissement, String photo_etablissement, String photo_patente, int code_postal, String position, Budget budget, String site_web, int enabled, Categorie categorie, Utilisateur utilisateur, Double Long, Double Lat) {
+        this.id_etablissement = id_etablissement;
+        this.nom_etablissement = nom_etablissement;
+        this.adresse_etablissement = adresse_etablissement;
+        this.telephone_etablissement = telephone_etablissement;
+        this.horaire_travail = horaire_travail;
+        this.description_etablissement = description_etablissement;
+        this.photo_etablissement = photo_etablissement;
+        this.photo_patente = photo_patente;
+        this.code_postal = code_postal;
+        this.position = position;
+        this.budget = budget;
+        this.site_web = site_web;
+        this.enabled = enabled;
+        this.categorie = categorie;
+        this.utilisateur = utilisateur;
+        this.Long = Long;
+        this.Lat = Lat;
+    }
+
+    public Double getLong() {
+        return Long;
+    }
+
+    public void setLong(Double Long) {
+        this.Long = Long;
+    }
+
+    public Double getLat() {
+        return Lat;
+    }
+
+    public void setLat(Double Lat) {
+        this.Lat = Lat;
     }
 
     public Etablissement(String nom_etablissement, String adresse_etablissement, int telephone_etablissement, String horaire_travail, String description_etablissement, String photo_etablissement, String photo_patente, int code_postal, String position, Budget budget, String site_web, Categorie categorie, Utilisateur utilisateur,int enabled) {
@@ -223,3 +261,4 @@ public class Etablissement {
     
     
 }
+

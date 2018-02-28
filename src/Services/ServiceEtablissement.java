@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
 
 
 /**
@@ -38,7 +41,7 @@ public class ServiceEtablissement implements IServices.IServiceEtablissement{
     @Override
     public void ajouterEtablissement(Etablissement e) {
         String sql = "INSERT INTO etablissement(nom_etablissement,adresse_etablissement,telephone_etablissement,horaire_travail,description_etablissement,photo_etablissement,photo_patente,code_postal"
-                + ",position,budget,site_web,id_categorie,id,enabled) VAlUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                + ",position,budget,site_web,id_categorie,id,enabled,longitude,latitude) VAlUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement stm;
         try {
             stm = con.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
@@ -51,24 +54,26 @@ public class ServiceEtablissement implements IServices.IServiceEtablissement{
             stm.setString(7,e.getPhoto_patente());
             stm.setInt(8,e.getCode_postal());
             stm.setString(9,e.getPosition());
-            stm.setString(10,e.getBudget().toString());
+            stm.setString(10,e.getBudget().getName());
             stm.setString(11,e.getSite_web());
             
-          //  ServiceCategorie sc = new ServiceCategorie();
-            stm.setInt(12, 2);
-    //stm.setInt(12,sc.afficherCategorie(e.getCategorie().getId_categorie()).getId_categorie());
+            ServiceCategorie sc = new ServiceCategorie();
+          //  stm.setInt(12, 2);
+    stm.setInt(12,sc.afficherCategorie(e.getCategorie().getId_categorie()).getId_categorie());
 
         stm.setInt(13,1);
 //           e.getUtilisateur().getId_user();
 stm.setInt(14, e.getEnabled());
 //            int res = stm.executeUpdate();
+stm.setString(15, String.valueOf(e.getLong()));
+stm.setString(16, String.valueOf(e.getLat()));
 
             stm.executeUpdate();
             ResultSet reset = stm.getGeneratedKeys();
             int id=0;
             while(reset.next()){
                 id = reset.getInt(1);
-                e.setId_etablissement(reset.getInt(1));
+                e.setId_etablissement(id);
                 System.out.println("Add Done etablissement "+id);
             
             }
@@ -100,9 +105,12 @@ stm.setInt(14, e.getEnabled());
         statement2.setString(11,e.getSite_web());
      //   statement2.setInt(12, e.getCategorie().getId_categorie());
        // statement2.setInt(13, e.getUtilisateur().getId_user());
-       statement2.setInt(12, 2);
+ServiceCategorie sc = new ServiceCategorie();
+statement2.setInt(12,sc.afficherCategorie(e.getCategorie().getId_categorie()).getId_categorie());
+
+//  statement2.setInt(12, 2);
        statement2.setInt(13,1);
-       statement2.setInt(14,16);
+       statement2.setInt(14,21);
      //  statement2.setInt(14, e.getId_etablissement());
         
         
@@ -125,6 +133,7 @@ stm.setInt(14, e.getEnabled());
         String delete = "DELETE FROM etablissement WHERE id_etablissement=?";
         PreparedStatement st2 = con.prepareStatement(delete);
         st2.setInt(1,e.getId_etablissement());
+            System.out.println(e.getId_etablissement());
         st2.executeUpdate();
         System.out.println(""+e.getId_etablissement()+" supprimee !!!");
         
@@ -192,6 +201,8 @@ stm.setInt(14, e.getEnabled());
             e.setCode_postal(result.getInt("code_postal"));
             e.setPosition(result.getString("position"));
             e.setSite_web(result.getString("site_web"));
+            e.setLong(result.getDouble("longitude"));
+            e.setLat(result.getDouble("latitude"));
             e.setBudget(Budget.valueOf(result.getString("budget")));                 
             ServiceCategorie sc = new ServiceCategorie();
             e.setCategorie(sc.afficherCategorie(result.getInt("id_categorie")));
@@ -234,7 +245,8 @@ stm.setInt(14, e.getEnabled());
             e.setPosition(result.getString("position"));
             e.setBudget(Budget.valueOf(result.getString("budget")));
             e.setSite_web(result.getString("site_web"));
-      
+            e.setLat(result.getDouble("latitude"));
+            e.setLong(result.getDouble("longitude"));
             ServiceCategorie sc = new ServiceCategorie();
             e.setCategorie(sc.afficherCategorie(result.getInt("id_categorie")));
        
@@ -299,7 +311,23 @@ stm.setInt(14, e.getEnabled());
                 }
         return le;
 }  
-    
-    
-}
+    public ObservableList<PieChart.Data> StatEtablissementParCategorie() {
+        ArrayList<PieChart.Data> list = new ArrayList<PieChart.Data>();
+        try {
+            PreparedStatement st = con.prepareStatement("SELECT r.nom_categorie, count( id_etablissement)  from etablissement e , categorie r where r.id_categorie=e.id_categorie and r.enabled=1 GROUP by r.id_categorie");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                list.add(new PieChart.Data(rs.getString(1), rs.getInt(2)));
+            }
+            ObservableList<PieChart.Data> observableList;
+            observableList = FXCollections.observableList(list);
+            //System.out.println("ici" + observableList.size());
+            return observableList;
 
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiceEtablissement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+   
+}

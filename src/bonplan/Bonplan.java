@@ -28,6 +28,7 @@ import Entite.Produit;
 import Services.ServiceCategorie;
 import Services.ServiceEtablissement;
 import Services.ServiceProduit;
+import java.time.LocalDate;
 
 
 
@@ -130,24 +131,24 @@ public class Bonplan {
                 System.out.println("// --------------EVENT-------------- ");        
        
                ServiceEvenement se = new ServiceEvenement();
-
+//
         Evenement e1 = new Evenement();
-        e1.setDescription_evenement("decsription de even 1");
-        e1.setDate_evenement(new java.sql.Date(2018-1900,2,2));
-        e1.setPhoto_evenement("photo even 1");
-//        se.ajouterevenement(e1);
-//        
-        for (Evenement e:se.afficherevenement())
-        {
-            System.out.println(e.toString());
-        }
-        
-            se.modifierevenement(e1);
-            se.supprimerevenement(e1);   
+       e1.setDescription("nsibi");
+        LocalDate d = LocalDate.parse( "2018-02-14" );
+        System.out.println(d);
+        e1.setDate_evenement(d);
+       e1.setPhoto("photooo");
+//        e1.setEtab(etab);
+//        etab.setId_etablissement(1);
+        e1.setNombre_interesse(5);
+        e1.setNom_evenement("aaaaaaaaaa");
+         se.ajouterevenement(e1);
+         //se.interesse(e1);
+        System.out.println(se.afficherlangitude(e1));
+        System.out.println( se.afficherlatitude(e1));
 //            
-            
-               System.out.println("// --------------EVENT-------------- ");        
-        
+//               System.out.println("// --------------EVENT-------------- ");        
+//        
 //               ServiceExperience sx = new ServiceExperience();
 //        Utilisateur u1 = new Utilisateur(1,"user1");
 //        Etablissement etab1 = new Etablissement(1, "etab55");
