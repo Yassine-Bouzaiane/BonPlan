@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="bigAnchor" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #3d010f;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Presentation.AuthentificationController">
+   <children>
+      <AnchorPane fx:id="ancho1" layoutX="340.0" layoutY="32.0" prefHeight="319.0" prefWidth="246.0" style="-fx-background-color: #841932;">
+         <children>
+            <Label fx:id="SignIn" layoutX="105.0" layoutY="22.0" prefHeight="26.0" prefWidth="54.0" text="Sign In" textFill="WHITE">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="pseudo" labelFloat="true" layoutX="41.0" layoutY="88.0" prefHeight="25.0" prefWidth="164.0" promptText="Pseudo" style="-fx-background-color: white;" unFocusColor="WHITE" />
+            <JFXPasswordField fx:id="passwd" labelFloat="true" layoutX="41.0" layoutY="147.0" prefHeight="25.0" prefWidth="164.0" promptText="Password" style="-fx-background-color: white;" unFocusColor="WHITE" />
+            <JFXButton fx:id="log" layoutX="41.0" layoutY="224.0" onAction="#onclickedProfilUser" prefHeight="25.0" prefWidth="164.0" style="-fx-background-color: #42f4d4;" text="Login" />
+            <JFXButton fx:id="forgotPass" layoutX="57.0" layoutY="274.0" onAction="#onclickedRecupererPass" prefHeight="31.0" prefWidth="154.0" text="Forgot password ?" textFill="#110606">
+               <font>
+                  <Font size="15.0" />
+               </font></JFXButton>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="anchro2" layoutY="32.0" prefHeight="319.0" prefWidth="288.0">
+         <children>
+            <Label fx:id="keep" layoutX="8.0" layoutY="80.0" prefHeight="21.0" prefWidth="298.0" text="&lt;&lt;keep calm and hangout with friends&gt;&gt;" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="sgUp" layoutX="80.0" layoutY="188.0" onAction="#onclickedInscription" prefHeight="25.0" prefWidth="154.0" style="-fx-background-color: #42f4d4;" text="Sign Up" />
+            <JFXButton fx:id="admin" layoutX="92.0" layoutY="280.0" onAction="#onclickedEspaceAdmin" prefHeight="25.0" prefWidth="126.0" text="Espace Admin">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </AnchorPane>
+      <Label fx:id="output" alignment="CENTER" layoutX="125.0" layoutY="366.0" opacity="0.0" prefHeight="17.0" prefWidth="322.0" style="-fx-background-color: white;" />
+   </children>
+</AnchorPane>
