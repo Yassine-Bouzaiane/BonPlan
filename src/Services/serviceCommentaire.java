@@ -6,10 +6,8 @@
 package Services;
 
 import Config.Connexion;
-import Entite.Client;
 import Entite.CriteresEvaluation;
 import Entite.Commentaire;
-import Entite.Test;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,24 +28,11 @@ public class ServiceCommentaire {
     public ServiceCommentaire() {
         this.cnx = Connexion.getInstance().getCon();
     }   
-    public void ajoutercommentaire(Commentaire a ,int id_exp , int id_ucomm)    {
+    public void ajoutercommentaire(Commentaire e)    {
      try {
  
-            String query = "insert into `bonplan2`.`commentraire` (`commentaire`,`id_exp`,`id_ucomm`) values (?,?,?)";
-            PreparedStatement st = Connexion.getInstance().getCon().prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
-           
-           st.setString(1,a.getCommentaire());
-            st.setInt(2,id_exp);
-            st.setInt(3,id_ucomm);
-
-            st.executeUpdate();
-             ResultSet result = st.getGeneratedKeys();
-            int id = 0;
-            while (result.next()) {
-                id = result.getInt(1);
-                a.setId_commentaire(result.getInt(1));
-                System.out.println("id ajout commentaire "+id);
-            }
+            Statement state = cnx.createStatement();
+            state.executeUpdate("INSERT INTO`commentaire`(`commentaire`,`id_exp`,`id_ucomm`) VALUES ('"+e.getCommentaire()+"',"+e.getExperience().getId_exp()+","+e.getUtilisateur().getId_user()+");");
 
           
          } catch (SQLException ex) {
@@ -55,18 +40,18 @@ public class ServiceCommentaire {
          } 
 }
 
- public void editcommentaire(Commentaire cs , int id_ucomm) 
+ public void editcommentaire(Commentaire cs) 
     {
      
         {
-        String update = "UPDATE commentraire SET commentaire= ?  WHERE id_ucomm= ?";
+        String update = "UPDATE commentaire SET commentaire= ?  WHERE id_commentaire = ? ";
         PreparedStatement statement2;
             try {
                 statement2 = cnx.prepareStatement(update);
                 
                 
                 statement2.setString(1,cs.getCommentaire());
-        statement2.setInt(2, id_ucomm);
+        statement2.setInt(2,cs.getId_commentaire());
         statement2.executeUpdate();
         System.out.println("le commentaire"+cs.getCommentaire()+" modifiÃ©e !!!");
             } catch (SQLException ex) {
@@ -77,13 +62,13 @@ public class ServiceCommentaire {
 
 }
     }
- public void Deletecommentaire(int id_commentaire) 
+ public void Deletecommentaire(Commentaire ce) 
     {
         try 
         {
-        String delete = "DELETE FROM commentraire WHERE id_commentaire = ? ";
+        String delete = "DELETE FROM commentaire WHERE id_commentaire = ? ";
         PreparedStatement st2 = cnx.prepareStatement(delete);
-         st2.setInt(1, id_commentaire);
+        st2.setInt(1,ce.getId_commentaire());
         st2.executeUpdate();
        
         
@@ -101,7 +86,7 @@ public Commentaire Findcommentaire(int id_commentaire)
         
         try
         {
-        String select = "SELECT * FROM commentraire WHERE  id_commentaire = '"+id_commentaire+"' ";
+        String select = "SELECT * FROM commentaire WHERE  id_commentaire = '"+id_commentaire+"' ";
         Statement statement1 = cnx.createStatement();
         ResultSet result = statement1.executeQuery(select);
        
@@ -109,9 +94,8 @@ public Commentaire Findcommentaire(int id_commentaire)
         {
             ce.setId_commentaire(result.getInt("id_commentaire"));
             ce.setCommentaire(result.getString("commentaire"));
-               ce.setId_exp(result.getInt("id_exp"));
-               ce.setId_ucomm(result.getInt("id_ucomm"));
-           
+            ce.getExperience().setId_exp(result.getInt("id_exp"));
+            ce.getUtilisateur().setId_user(result.getInt("id_ucomm"));
         }
         }
         catch (SQLException e)
@@ -122,51 +106,36 @@ public Commentaire Findcommentaire(int id_commentaire)
                 }
         return ce;
     }
- public List<Test> listcommentaire(int id_exp ) throws SQLException 
+ public List<Commentaire> listcommentaire() 
     {
-                List<Test> co=new ArrayList<>();
-      
-        String select = "SELECT c.id_commentaire,c.commentaire,c.id_ucomm,u.nom,u.prenom,u.photo_user FROM commentraire c JOIN user u  ON (c.id_ucomm = u.id) WHERE   id_exp=? ";
-       PreparedStatement statement1 = cnx.prepareStatement(select);
-        statement1.setInt(1, id_exp);
-       // statement1.setInt(2, id_user);
-        ResultSet result = statement1.executeQuery();
-      
+                List<Commentaire> co=new ArrayList<>();
+        try 
+        {
+        String select = "SELECT * FROM commentaire  ;";
+        Statement statement1 = cnx.createStatement();
+        
+        ResultSet result = statement1.executeQuery(select);
+        
         while (result.next()) 
         {
-            
-            Test h1 = new Test();
+            Commentaire h1 = new Commentaire();
             h1.setId_commentaire(result.getInt("id_commentaire"));
-            h1.setCommen(result.getString("commentaire"));
-           
-            h1.setNom(result.getString("nom"));
-           h1.setPrenom(result.getString("prenom"));
-            h1.setPhoto_user(result.getString("photo_user"));
-             h1.setId_ucomm(result.getInt("id_ucomm"));
-            
-           
+            h1.setCommentaire(result.getString("commentaire"));
+            h1.getExperience().setId_exp(result.getInt("id_exp"));
+            h1.getUtilisateur().setId_user(result.getInt("id_ucomm"));
             co.add(h1);
 
         } 
-    
-            
-        //System.out.println("fin");
+    }   
+        catch (SQLException e)
+                {
+                    System.err.println("SQLException: "+e.getMessage());
+                    System.err.println("SQLSTATE: "+e.getSQLState());
+                    System.err.println("VnedorError: "+e.getErrorCode());
+                }
         return co;
 
     }
- 
- /* public Commentaire getCommentaireById(int id_exp , int id_user) throws SQLException {
-        List<Commentaire> list = listcommentaire(id_exp,id_user);
-        for (Commentaire c : list) {
-            if (c.getId_exp() == id_exp) {
-                return c;
-            }
-        }
-        return null;
-    }
- */
- 
- 
 
    
 }

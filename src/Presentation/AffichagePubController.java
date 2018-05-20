@@ -24,16 +24,21 @@ public class AffichagePubController implements Initializable {
     private Label descrip;
     Services.ServicePublicite sp= new ServicePublicite();
     private Publicite p ;
-
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        
+        
         // TODO
-    }    
+    }  
+
     void setDesc(String description_publicite) {
       //To change body of generated methods, choose Tools | Templates.
       descrip.setText(description_publicite);
     }
+    
+    
 }

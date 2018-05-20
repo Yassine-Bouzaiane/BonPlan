@@ -43,7 +43,7 @@ public class ServiceDemandeEtablissement implements IServices.IServiceDemandeEta
             stm.setString(10,de.getBudget_demande().toString());   
             stm.setString(11,de.getSite_web_etab_demande());
             stm.setInt(12, de.getCategorie().getId_categorie());
-            stm.setInt(13,de.getUtilisateur().getId_user());
+            stm.setInt(13,1);
             int res = stm.executeUpdate();
             if(res > 0){
                 System.out.println("Add Done");
@@ -119,7 +119,7 @@ public class ServiceDemandeEtablissement implements IServices.IServiceDemandeEta
         while (result.next()) 
         {
             DemandeEtablissement de = new DemandeEtablissement();
-            
+             de.setId_demande_etab(result.getInt("id_demande_etab"));
             de.setNom_etab_demande(result.getString("nom_etablissement_demande"));
             de.setAdresse_etab_demande(result.getString("adresse_etablissement_demande"));  
             de.setTelephone_etab_demande(result.getInt("telephone_etablissement_demande"));
@@ -132,7 +132,7 @@ public class ServiceDemandeEtablissement implements IServices.IServiceDemandeEta
             de.setBudget_demande(DemandeEtablissement.Budget.valueOf(result.getString("budget_demande")));
             de.setSite_web_etab_demande(result.getString("site_web_demande"));
             de.getCategorie().setId_categorie(result.getInt("id_categorie"));
-            de.getUtilisateur().setId_user(result.getInt("id"));
+           // de.getUtilisateur().setId_user(result.getInt("id"));
             
             
             ld.add(de);

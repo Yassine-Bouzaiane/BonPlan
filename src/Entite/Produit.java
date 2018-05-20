@@ -16,18 +16,18 @@ public class Produit {
     private String nom_produit;
     private String photo_produit;
     private double prix_produit;
-    private int idetablissement;
+    private Etablissement etablissement;
     
     public Produit(){
         
     }
 
-    public Produit(int id_produit, String nom_produit, String photo_produit, double prix_produit, int idetablissement) {
+    public Produit(int id_produit, String nom_produit, String photo_produit, double prix_produit, Etablissement etablissement) {
         this.id_produit = id_produit;
         this.nom_produit = nom_produit;
         this.photo_produit = photo_produit;
         this.prix_produit = prix_produit;
-        this.idetablissement = idetablissement;
+        this.etablissement = etablissement;
     }
 
    
@@ -64,19 +64,19 @@ public class Produit {
         this.prix_produit = prix_produit;
     }
 
-    public int getEtablissement() {
-        return idetablissement;
+    public Etablissement getEtablissement() {
+        return etablissement;
     }
 
-    public void setEtablissement(int idetablissement) {
-        this.idetablissement = idetablissement;
+    public void setEtablissement(Etablissement etablissement) {
+        this.etablissement = etablissement;
     }
     
     
 
     @Override
     public String toString() {
-        return "Produit{" + "id_produit=" + id_produit + ", nom_produit=" + nom_produit + ", photo_produit=" + photo_produit + ", prix_produit=" + prix_produit + ", etablissement=" + idetablissement + '}';
+        return "Produit{" + "id_produit=" + id_produit + ", nom_produit=" + nom_produit + ", photo_produit=" + photo_produit + ", prix_produit=" + prix_produit + ", etablissement=" + etablissement + '}';
     }
     
 

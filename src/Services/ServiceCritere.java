@@ -24,20 +24,18 @@ import java.util.logging.Logger;
  * @author amine
  */
 public class ServiceCritere implements IServices.IServiceCritere{
- public Connection con;
+ public Connection cnx;
 
     public ServiceCritere() {
-        this.con = Connexion.getInstance().getCon();
+        this.cnx = Connexion.getInstance().getCon();
     }   
 
 public void ajoutercritere(CriteresEvaluation e)    {
      try {
-     String req=("INSERT INTO`critere_evaluation`(`nom_critere_evaluation`,`id_categorie`) VALUES (?,?)");
+ 
+            Statement state = cnx.createStatement();
+            state.executeUpdate("INSERT INTO`critere_evaluation`(`nom_critere_evaluation`,`id_categorie`) VALUES ('"+e.getNom_critere_evaluation()+"',"+e.getCategorie().getId_categorie()+");");
 
-       PreparedStatement state = Connexion.getInstance().getCon().prepareStatement(req,PreparedStatement.RETURN_GENERATED_KEYS);
-        state.setString(1, e.getNom_critere_evaluation());
-            state.setInt(2, 6 /*e.getId_critere()*/ );  
-          
             // 
          } catch (SQLException ex) {
                System.out.println(ex.getMessage());    
@@ -52,7 +50,7 @@ public void editcritere(CriteresEvaluation cs)
         String update = "UPDATE critere_evaluation SET nom_critere_evaluation= ?  WHERE id_critere = ?";
         PreparedStatement statement2;
             try {
-                statement2 = con.prepareStatement(update);
+                statement2 = cnx.prepareStatement(update);
                 
                 
                 statement2.setString(1,cs.getNom_critere_evaluation());
@@ -74,7 +72,7 @@ public void editcritere(CriteresEvaluation cs)
         try 
         {
         String delete = "DELETE FROM critere_evaluation WHERE id_critere = ? ";
-        PreparedStatement st2 = con.prepareStatement(delete);
+        PreparedStatement st2 = cnx.prepareStatement(delete);
         st2.setInt(1,ce.getId_critere());
         st2.executeUpdate();
        
@@ -96,7 +94,7 @@ public CriteresEvaluation Findcritere(int id_crit)
         try
         {
         String select = "SELECT * FROM critere_evaluation WHERE  id_critere = '"+id_crit+"' ";
-        Statement statement1 = con.createStatement();
+        Statement statement1 = cnx.createStatement();
         ResultSet result = statement1.executeQuery(select);
        
         while (result.next()) 
@@ -124,7 +122,7 @@ public CriteresEvaluation Findcritere(int id_crit)
         try 
         {
         String select = "SELECT * FROM critere_evaluation  ;";
-        Statement statement1 = con.createStatement();
+        Statement statement1 = cnx.createStatement();
         
         ResultSet result = statement1.executeQuery(select);
         

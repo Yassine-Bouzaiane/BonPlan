@@ -26,8 +26,8 @@ public class DemandeEtablissement {
     private Categorie categorie;
     private Utilisateur utilisateur;
 
-    public DemandeEtablissement(int id_demande_etab, String nom_etab_demande, String adresse_etab_demande, int telephone_etab_demande, String horaire_travail_etab_demande, String description_etab_demande, String photo_etab_demande, String photo_patente_etab_demande, int code_postal_etab_demande, String position_etab_demande, Budget budget_demande, String site_web_etab_demande, Categorie categorie, Utilisateur utilisateur) {
-        this.id_demande_etab = id_demande_etab;
+    public DemandeEtablissement( String nom_etab_demande, String adresse_etab_demande, int telephone_etab_demande, String horaire_travail_etab_demande, String description_etab_demande, String photo_etab_demande, String photo_patente_etab_demande, int code_postal_etab_demande, String position_etab_demande, Budget budget_demande, String site_web_etab_demande, Categorie categorie, Utilisateur utilisateur) {
+        
         this.nom_etab_demande = nom_etab_demande;
         this.adresse_etab_demande = adresse_etab_demande;
         this.telephone_etab_demande = telephone_etab_demande;
@@ -47,6 +47,7 @@ public class DemandeEtablissement {
     
     
    public DemandeEtablissement(){
+       categorie = new Categorie();
    }
 
     public int getId_demande_etab() {
@@ -93,8 +94,8 @@ public class DemandeEtablissement {
         return position_etab_demande;
     }
 
-    public Budget getBudget_demande() {
-        return budget_demande;
+    public String getBudget_demande() {
+        return budget_demande.name();
     }
 
     public String getSite_web_etab_demande() {

@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import IServices.IServicePublicite;
-import IServices.IServiceEvenement;
 import java.sql.Connection;
+import java.time.LocalDate;
 
 /**
  *
@@ -40,14 +40,16 @@ Connection con ;
     {
                 List<Publicite> pubs =new ArrayList<>();
         try {
-            Statement stm = Connexion.getInstance().getCon().createStatement();
+            Statement stm = con.createStatement();
             ResultSet rest= 
                     stm.executeQuery("select * from `publicite` ");
             while(rest.next()){
                 Publicite pub = new Publicite();
                 pub.setId_publicite(rest.getInt("id_publicite"));
+                pub.setTitre(rest.getString("titre"));
                 pub.setDescription_publicite(rest.getString("description_publicite"));
                 pub.setPhoto_publicite(rest.getString("photo_publicite"));
+                
                 
                 pubs.add(pub);
                 
@@ -58,19 +60,24 @@ Connection con ;
         }
          return pubs;
     }    }
-
-     public List<Publicite> afficherPhoto() {
+    
+    public List<Publicite> afficherPhoto() {
 
     {
                 List<Publicite> pic =new ArrayList<>();
         try {
             Statement stm = con.createStatement();
             ResultSet rest= 
-                    stm.executeQuery("select photo_publicite from `publicite` ");
+                    stm.executeQuery("select * from `publicite` where dateDebut > ' "+
+                            java.sql.Date.valueOf(LocalDate.now().minusDays(7))+"' ORDER BY dateDebut DESC;");
+            System.out.println(LocalDate.now().minusDays(7));
+            
             while(rest.next()){
                 Publicite pub = new Publicite();
-                
+                pub.setId_publicite(rest.getInt("id_publicite"));
+                pub.setDescription_publicite(rest.getString("description_publicite"));
                 pub.setPhoto_publicite(rest.getString("photo_publicite"));
+                pub.toString();
                 
                 pic.add(pub);
                 
@@ -81,13 +88,14 @@ Connection con ;
         }
              return pic;
     }    }
+
     @Override
     public void ajouterpublicite(Publicite p) {
 try {
-    String query = "insert into `bonplan`.`publicite` (`description_publicite`,`photo_publicite`,`id_etablissement`,enabled) values (?,?,?,?)";
+    String query = "insert into `bonplan`.`publicite` (`description_publicite`,`photo_publicite`,`id_etablissement`,enabled,titre,dateDebut) values (?,?,?,?,?,?)";
     
     PreparedStatement st =
-            Connexion.getInstance().getCon().prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
+            con.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
            
             st.setString(1,p.getDescription_publicite());
             st.setString(2,p.getPhoto_publicite());
@@ -95,6 +103,10 @@ try {
              ServiceEtablissement sc = new ServiceEtablissement();
              st.setInt(3,2);
              st.setInt(4, 0);
+             st.setString(5, p.getTitre());
+             st.setDate(6, java.sql.Date.valueOf(LocalDate.now()));
+                
+             
          //   st.setInt(3,sc.ChercherEtablissement(p.getEtablissement().getId_etablissement()).getId_etablissement() );
 
             st.executeUpdate();
@@ -119,11 +131,12 @@ try {
     public void modifierpublicite(Publicite p) {
  try
         {
-        String update = "UPDATE publicite SET description_publicite = ? , photo_publicite = ? WHERE id_publicite = ?";
+        String update = "UPDATE publicite SET description_publicite = ? , photo_publicite = ? , titre = ? WHERE id_publicite = ?";
         PreparedStatement statement2 = con.prepareStatement(update);
         statement2.setString(1, p.getDescription_publicite());
         statement2.setString(2, p.getPhoto_publicite());
-        statement2.setInt(3, p.getId_publicite());
+        statement2.setString(3, p.getTitre());
+        statement2.setInt(4, p.getId_publicite());
         
         statement2.executeUpdate();
         
@@ -160,7 +173,7 @@ try {
 
          try {
             String query = "delete from `publicite` where id_publicite =?";
-            PreparedStatement st = Connexion.getInstance().getCon().prepareStatement(query);
+            PreparedStatement st = con.prepareStatement(query);
             st.setInt(1, p.getId_publicite());
             st.executeUpdate();
             System.out.println("supp pub ok");
@@ -184,6 +197,7 @@ try {
                 c.setId_publicite(result.getInt("id_publicite"));
                 c.setDescription_publicite(result.getString("description_publicite"));
                 c.setPhoto_publicite(result.getString("photo_publicite"));
+                c.setTitre(result.getString("titre"));
                 c.setEnabled(result.getInt("enabled"));
 
 
@@ -197,6 +211,8 @@ try {
         }
         return lc;
     } //To change body of generated methods, choose Tools | Templates.
+
+ 
 
 
     

@@ -5,7 +5,7 @@
  */
 package Entite;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -17,18 +17,26 @@ public class Publicite
     private String description_publicite;
     private String photo_publicite;
     private int enabled;
+    private String titre;
+    private LocalDate dateDebut;
+    
     private Etablissement etablissement;
     
     public Publicite() 
     {
     }
 
-    public Publicite(String description_publicite, String photo_publicite, int enabled, Etablissement etablissement) {
+    public Publicite(String description_publicite, String photo_publicite, int enabled, String titre, LocalDate dateDebut, Etablissement etablissement) {
         this.description_publicite = description_publicite;
         this.photo_publicite = photo_publicite;
         this.enabled = enabled;
+        this.titre = titre;
+        this.dateDebut = dateDebut;
+        
         this.etablissement = etablissement;
     }
+
+   
 
     
 
@@ -73,11 +81,27 @@ public class Publicite
     public void setEnabled(int enabled) {
         this.enabled = enabled;
     }
-    
+
+    public String getTitre() {
+        return titre;
+    }
+
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
+
+    public LocalDate getDateDebut() {
+        return dateDebut;
+    }
+
+    public void setDateDebut(LocalDate dateDebut) {
+        this.dateDebut = dateDebut;
+    }
+        
 
     @Override
     public String toString() {
-        return description_publicite ;
+        return titre ;
     
     
 }

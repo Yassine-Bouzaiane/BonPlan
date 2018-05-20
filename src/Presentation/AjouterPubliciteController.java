@@ -5,18 +5,7 @@
  */
 package Presentation;
 
-import Entite.Etablissement;
-import Entite.Paiement;
 import Entite.Publicite;
-import Services.ServiceEtablissement;
-import Services.ServicePaiement;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextField;
-import com.stripe.exception.APIConnectionException;
-import com.stripe.exception.APIException;
-import com.stripe.exception.AuthenticationException;
-import com.stripe.exception.CardException;
-import com.stripe.exception.InvalidRequestException;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,8 +15,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,13 +23,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
 
 /**
  * FXML Controller class
@@ -52,49 +39,41 @@ import javafx.stage.Stage;
 public class AjouterPubliciteController implements Initializable {
 
     @FXML
-    private TextField titre;
-    @FXML
     private TextArea desc;
+    
     @FXML
     private Button ajouter;
+    
     @FXML
     private Button cancel;
-    @FXML
-    private ImageView pic;
-    @FXML
-    private ImageView pic1;
-      private Stage dialogStage;
+    private Stage dialogStage;
     private Publicite s;
     private boolean okClicked = false; 
+        @FXML
+    private ImageView pic;
+    private String ImageFile;
     @FXML
-    private ChoiceBox chb;
+    private ImageView pic1;
     @FXML
-    private TextField Numcarte;
-    @FXML
-    private TextField moisexp;
-    @FXML
-    private TextField anneexp;
-    @FXML
-    private JFXTextField txtAmount;
-    @FXML
-    private JFXButton btn1;
-
+    private TextField titre;
     /**
      * Initializes the controller class.
      */
+    
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-          if(s != null){
+    public void initialize(URL url, ResourceBundle rb)
+            
+    {
+//        ServiceEtablissement sp = new ServiceEtablissement();
+//         List<String> l=new ArrayList<>();
+//        l=sp.nouri();
+//        for (int i=0;i<l.size();i++)
+//        {//System.out.println(l.get(i).toString());
+//chb.getItems().add(l.get(i).toString());
+//                }
+        if(s != null){
             titre.setText(s.getTitre());
             desc.setText(s.getDescription_publicite());
-           ServiceEtablissement sp = new ServiceEtablissement();
-         List<String> l=new ArrayList<>();
-        l=sp.nouri(AuthentificationController.c.getId_user());
-        for (int i=0;i<l.size();i++)
-        {//System.out.println(l.get(i).toString());
-       chb.getItems().add(l.get(i).toString());
-                }
-           
             
              //System.out.println(photo.getImage());
              
@@ -105,9 +84,9 @@ public class AjouterPubliciteController implements Initializable {
         else{
             System.out.println("done");
         }
-        // TODO
-    }   
-    public void setDialogStage(Stage dialogStage) {
+       
+    }    
+public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
  public void setPublicite(Publicite s) {
@@ -115,13 +94,6 @@ public class AjouterPubliciteController implements Initializable {
         titre.setText(s.getTitre());
         desc.setText(s.getDescription_publicite());
         desc.setWrapText(true);
-          ServiceEtablissement sp = new ServiceEtablissement();
-         List<String> l=new ArrayList<>();
-        l=sp.nouri(AuthentificationController.c.getId_user());
-        for (int i=0;i<l.size();i++)
-        {//System.out.println(l.get(i).toString());
-       chb.getItems().add(l.get(i).toString());
-                }
         
 //        photo.setImage(s.getPhoto_publicite().to);
         
@@ -131,14 +103,11 @@ public class AjouterPubliciteController implements Initializable {
        
         return okClicked;
     }
-
-    @FXML
-    private void ajouter(ActionEvent event) {
-           if (isInputValid()) {
+ @FXML
+ private void ajouter() throws MalformedURLException {
+        if (isInputValid()) {
             s.setTitre(titre.getText());
             s.setDescription_publicite(desc.getText());
-            s.getEtablissement().setNom_etablissement((String) chb.getSelectionModel().getSelectedItem());
-             
             //s.setPhoto_publicite(pic.getImage().toString());
 
             //    getImageUrl = selectedFile.getAbsolutePath();
@@ -149,40 +118,24 @@ public class AjouterPubliciteController implements Initializable {
             okClicked = true;
             dialogStage.close();
         
-    }
-    }
-
-    @FXML
-    private void Cancel(ActionEvent event) {
+    }}
+ @FXML
+ private void Cancel() {
         dialogStage.close();
     }
+   //@FXML
+//    private void ajouterPublicite(ActionEvent event) {
+//        Etablissement e = new Etablissement();
+//        e.setNom_etablissement((chb.getValue().toString()));
+//        Publicite p = new Publicite(desc.getText(),photo.getText().toString(),e);
+//        
+//       Services.ServicePublicite SP=new ServicePublicite();
+//        SP.ajouterpublicite(p);
+//    }
 
-    @FXML
-    private void uploadPic(ActionEvent event) throws MalformedURLException, IOException {
-        
-        FileChooser fc = new FileChooser();
-        File selectedFile = fc.showOpenDialog(null);
-        if (selectedFile != null) {
-           
-            upload(selectedFile);
-            String imageFile = selectedFile.toURI().toURL().toString();
-            System.err.println(selectedFile.getName());
-
-            Image image = new Image(imageFile);
-            pic.setImage(image);
-            s.setPhoto_publicite(selectedFile.getName());
-            //////a changer static
-            /*IuserService is = new UserService();
-            User u;
-            u = is.findById(15);
-            //////////
-            u.setPath(imageFile);
-            is.update(u);*/
-            /////
-
-        } else {
-            System.out.println("file doesn't exist");
-    }}
+//    @FXML
+    
+    
     private boolean isInputValid() {
         String errorMessage = "";
         if (titre.getText() == null || titre.getText().length() == 0) {
@@ -210,8 +163,11 @@ public class AjouterPubliciteController implements Initializable {
             alert.showAndWait();
 
             return false;
-        }}
-        public String upload(File file) throws FileNotFoundException, IOException {
+        }
+    
+}
+
+     public String upload(File file) throws FileNotFoundException, IOException {
         BufferedOutputStream stream = null;
         String globalPath="C:\\wamp\\www\\image";
         String localPath="localhost:80/";
@@ -239,12 +195,35 @@ public class AjouterPubliciteController implements Initializable {
             return "error2";
         }
     }
-
+    
     @FXML
-    private void payer(ActionEvent event) throws AuthenticationException, InvalidRequestException, APIConnectionException, CardException, APIException {
-        ServicePaiement p = new ServicePaiement();
-        p.payer("4242424242424242", 12, 18, "458", 1000, "testpaimenet");
+    private void uploadPic(ActionEvent event) throws MalformedURLException, IOException {
+    
+        FileChooser fc = new FileChooser();
+        File selectedFile = fc.showOpenDialog(null);
+        if (selectedFile != null) {
+           
+            upload(selectedFile);
+            String imageFile = selectedFile.toURI().toURL().toString();
+            System.err.println(selectedFile.getName());
+
+            Image image = new Image(imageFile);
+            pic.setImage(image);
+            s.setPhoto_publicite(selectedFile.getName());
+            //////a changer static
+            /*IuserService is = new UserService();
+            User u;
+            u = is.findById(15);
+            //////////
+            u.setPath(imageFile);
+            is.update(u);*/
+            /////
+
+        } else {
+            System.out.println("file doesn't exist");
+        }
     }
     
-  
+    
+    
 }

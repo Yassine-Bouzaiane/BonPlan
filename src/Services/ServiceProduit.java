@@ -39,7 +39,7 @@ public class ServiceProduit implements IServiceProduit{
             st1.setString(2, prod.getPhoto_produit());  
            
             st1.setDouble(3,prod.getPrix_produit());
-             st1.setInt(4,5/*prod.getEtablissement().getId_etablissement()*/); 
+             st1.setInt(4,prod.getEtablissement().getId_etablissement()); 
             
             
             

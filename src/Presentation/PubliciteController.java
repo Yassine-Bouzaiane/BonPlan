@@ -8,17 +8,14 @@ package Presentation;
 import Entite.Publicite;
 import Services.Facebook;
 import Services.ServicePublicite;
+import bonplan.TestPublicite;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
-import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -39,42 +36,49 @@ import javafx.stage.Stage;
 public class PubliciteController {
 
     @FXML
-    private VBox mainContainer;
+    private Button bt_menu;
     @FXML
+   // private VBox mainContainer;
+   // private TableView<Publicite> table_publicite;
+   // private TableColumn<Publicite, Image> photo;
+   // private TableColumn<Publicite, String> details;
+   // @FXML
     private Button add;
     @FXML
     private Button edit;
     @FXML
     private Button delete;
+    
+    private ObservableList<Publicite> data ;
+    ServicePublicite service = new ServicePublicite();
+    private TestPublicite mainApp;
     @FXML
-    public  ListView<Publicite> titre;
+    private ListView<Publicite> titre;
     @FXML
     private ImageView photo2;
+    @FXML
+    private VBox mainContainer;
     @FXML
     private Button partage;
     @FXML
     private Label desc;
-    ServicePublicite service = new ServicePublicite();
-    private ObservableList<Publicite> data ;
     
-    public static Publicite e;
-
+    
     /**
      * Initializes the controller class.
      */
    
+   
     public void initialize() {
-          data = FXCollections.observableArrayList();
-        List<Publicite> ls = service.afficherpublicite(AuthentificationController.c.getId_user());
+        data = FXCollections.observableArrayList();
+        List<Publicite> ls = service.afficherpublicite();
         ls.stream().forEach((j)->{
             data.add(j);
         });
         
         titre.setItems(data);
         titre.getSelectionModel().selectFirst();
-        e = titre.getSelectionModel().getSelectedItem();
-        
-        System.out.println(e.toString());
+        Publicite e=titre.getSelectionModel().getSelectedItem();
         desc.setText(e.getDescription_publicite());
         desc.setMaxWidth(200);
         desc.setWrapText(true);
@@ -85,15 +89,22 @@ public class PubliciteController {
        
 
     }    
-
+    
     @FXML
-    private void Add(ActionEvent event) {
-        Publicite tempService = new Publicite();
+    private void Add(ActionEvent event) throws IOException {
+//Parent homePage = FXMLLoader.load(getClass().getResource("AjouterPublicite.fxml"));
+//
+//        Scene homePage_scene = new Scene(homePage);
+//
+//        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//
+//        app_stage.setScene(homePage_scene);
+//
+//        app_stage.show();
+Publicite tempService = new Publicite();
             boolean okClicked = showServiceEditDialog(tempService);
             if (okClicked) {
-                System.out.println(tempService.toString());
                 service.ajouterpublicite(tempService);
-                
                 initialize();
                
         
@@ -101,31 +112,19 @@ public class PubliciteController {
         else{
             System.out.println("not done");
         };
+        
     }
+    
 
     @FXML
-    private void Edit(ActionEvent event) throws IOException {
+    private void Edit(ActionEvent event) {
         Publicite selectedPerson = titre.getSelectionModel().getSelectedItem();
-        System.out.println(selectedPerson.getTitre());
         if ( selectedPerson != null) {
-           FXMLLoader loader = new FXMLLoader(getClass().getResource("modifierPublicite.fxml"));
-        //        Parent root = (Parent) loader.load();
-                
-//    Scene scene = new Scene(root);
-//      Stage stage = new Stage();
-//      stage.setScene(scene);
-//      stage.showAndWait(); 
-//                service.modifierpublicite(selectedPerson);
-AnchorPane root = (AnchorPane) loader.load();
-                ModifierPubliciteController controller = loader.getController();
-                controller.setPublicite(selectedPerson); 
-               // AnchorPane root = (AnchorPane) loader.load();
-                 Scene scene = new Scene(root);
-                Stage stage = new Stage();
-      stage.setScene(scene);
-      stage.showAndWait(); 
-                
-            
+            boolean okClicked = showServiceEditDialog(selectedPerson);
+            if (okClicked) {
+                service.modifierpublicite(selectedPerson);
+                initialize();
+            }
 
         } else {
             // Nothing selected.
@@ -158,12 +157,11 @@ AnchorPane root = (AnchorPane) loader.load();
             alert.setContentText("Please select a Publicite in the table.");
             alert.showAndWait();
         }
-    
     }
 
     @FXML
     private void afficher(MouseEvent event) {
-        Publicite e=titre.getSelectionModel().getSelectedItem();
+         Publicite e=titre.getSelectionModel().getSelectedItem();
         desc.setText(e.getDescription_publicite());
        // photo2.setViewport(e.getPhoto_publicite());
        //label1.setText(e.getPhoto_publicite());
@@ -177,17 +175,9 @@ AnchorPane root = (AnchorPane) loader.load();
     photo2.setImage(image);
     }
 
-    @FXML
-    private void Partager(ActionEvent event) {
-        int selectedIndex = titre.getSelectionModel().getSelectedIndex();
-         Publicite selectedPerson = titre.getSelectionModel().getSelectedItem();
-         if (selectedIndex >= 0) 
-         {
-             Facebook fb = new Facebook();
-             fb.partager(selectedPerson);
-         }
-    }
-    public boolean showServiceEditDialog(Publicite s) {
+    
+    
+        public boolean showServiceEditDialog(Publicite s) {
         try {
             FXMLLoader loader2 = new FXMLLoader();
             loader2.setLocation(getClass().getResource("../Presentation/AjouterPublicite.fxml"));
@@ -212,5 +202,16 @@ AnchorPane root = (AnchorPane) loader.load();
             return false;
         }
     }
-    
+
+    @FXML
+    private void Partager(ActionEvent event) 
+    {
+        int selectedIndex = titre.getSelectionModel().getSelectedIndex();
+         Publicite selectedPerson = titre.getSelectionModel().getSelectedItem();
+         if (selectedIndex >= 0) 
+         {
+             Facebook fb = new Facebook();
+             fb.partager(selectedPerson);
+         }
+}
 }
