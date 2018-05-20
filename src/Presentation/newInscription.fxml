@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="452.0" prefWidth="736.0" style="-fx-background-color: #541d1d;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Presentation.NewInscriptionController">
+   <children>
+      <JFXTextField fx:id="Nom" focusColor="#5070d0" labelFloat="true" layoutX="52.0" layoutY="87.0" promptText="Nom" style="-fx-background-color: white;" unFocusColor="WHITE" />
+      <JFXTextField fx:id="pren" labelFloat="true" layoutX="263.0" layoutY="87.0" promptText="Prenom" style="-fx-background-color: white;" unFocusColor="#fffbfb" />
+      <JFXTextField fx:id="mail" labelFloat="true" layoutX="455.0" layoutY="87.0" promptText="Email" style="-fx-background-color: white;" unFocusColor="WHITE" />
+      <JFXTextField fx:id="reg" labelFloat="true" layoutX="263.0" layoutY="176.0" promptText="region" style="-fx-background-color: white;" unFocusColor="WHITE" />
+      <JFXTextField fx:id="vil" labelFloat="true" layoutX="455.0" layoutY="176.0" promptText="ville" style="-fx-background-color: white;" unFocusColor="WHITE" />
+      <JFXTextField fx:id="pseudo" labelFloat="true" layoutX="263.0" layoutY="247.0" promptText="pseudo" style="-fx-background-color: white;" unFocusColor="WHITE" />
+      <JFXTextField fx:id="pass" labelFloat="true" layoutX="455.0" layoutY="247.0" promptText="password" style="-fx-background-color: white;" unFocusColor="WHITE" />
+      <JFXButton fx:id="confInscr" layoutX="613.0" layoutY="461.0" onAction="#onclickedConfirmer" prefHeight="25.0" prefWidth="123.0" ripplerFill="#e41717" style="-fx-background-color: red;" text="confirmer" textFill="WHITE">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="321.0" layoutY="25.0" prefHeight="30.0" prefWidth="94.0" text="Inscription" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="outputnom" alignment="CENTER" layoutX="48.0" layoutY="127.0" opacity="0.0" prefHeight="17.0" prefWidth="135.0" />
+      <Label fx:id="outputprenom" alignment="CENTER" layoutX="264.0" layoutY="127.0" opacity="0.0" prefHeight="17.0" prefWidth="135.0" />
+      <Label fx:id="outputmail" layoutX="457.0" layoutY="127.0" opacity="0.0" prefHeight="17.0" prefWidth="164.0" />
+      <Label fx:id="outputpseudo" alignment="CENTER" layoutX="260.0" layoutY="289.0" opacity="0.0" prefHeight="17.0" prefWidth="135.0" />
+      <Label fx:id="outputpasswd" alignment="CENTER" layoutX="457.0" layoutY="289.0" opacity="0.0" prefHeight="17.0" prefWidth="135.0" />
+      <JFXTextField fx:id="role" labelFloat="true" layoutX="47.0" layoutY="176.0" promptText="Type Utilisateur" style="-fx-background-color: white;" unFocusColor="WHITE" />
+      <ImageView fx:id="imageProfil" fitHeight="150.0" fitWidth="200.0" layoutX="45.0" layoutY="239.0" onMouseClicked="#onclickedPhoto" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Media/avatar.png" />
+         </image>
+      </ImageView>
+      <JFXButton fx:id="back" layoutX="-1.0" layoutY="461.0" onAction="#onclickedBack" prefHeight="25.0" prefWidth="123.0" ripplerFill="#e41717" style="-fx-background-color: red;" text="Back" textFill="WHITE">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </JFXButton>
+      <Label fx:id="msgValid" alignment="CENTER" layoutX="192.0" layoutY="461.0" opacity="0.0" prefHeight="27.0" prefWidth="337.0" style="-fx-background-color: white;">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
